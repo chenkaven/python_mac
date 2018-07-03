@@ -361,12 +361,12 @@ def creatViewFile():
     global arr_list, file_list,fold_List;
     for file_name in arr_list:
         proNumber = random.randint(method_min, method_max);
-        print "初始化：proNumber:", number;
+        print ("初始化：proNumber:", number);
         methodNameArray = []
         for i in range(method_min, method_max):
             methodNameArray.append(random.choice(methodArray));
         methodNameArray = list(set(methodNameArray))  # 数组去重
-        print "初始化:methodNameArray:", methodNameArray;
+        print ("初始化:methodNameArray:", methodNameArray);
 
         classNameArray = [];
         for i in range(method_min, method_max):
@@ -398,12 +398,12 @@ def creatViewControllerFile():
     global arr_list, file_list,fold_List;
     for file_name in arr_list:
         proNumber = random.randint(method_min, method_max);
-        print "初始化：proNumber:", number;
+        print ("初始化：proNumber:", number);
         methodNameArray = []
         for i in range(method_min, method_max):
             methodNameArray.append(random.choice(methodArray));
         methodNameArray = list(set(methodNameArray))  # 数组去重
-        print "初始化:methodNameArray:", methodNameArray;
+        print ("初始化:methodNameArray:", methodNameArray);
         classNameArray = [];
         for i in range(method_min, method_max):
             classNameArray.append(random.choice(classArray));
@@ -443,10 +443,10 @@ if __name__ == '__main__':
     creatModelFile();
     creatViewFile();
     creatViewControllerFile();
-    print '--开始创建ZZTrash.h--'
+    print ('--开始创建ZZTrash.h--');
     all_header_text = "\n".join(file_list);
     target_iOS_folder = random.choice(fold_List);  
     with open(os.path.join(target_iOS_folder, "ZZTrash.h"), "w") as fileObj:
         fileObj.write(all_header_text);
         fileObj.close();
-    print '--共创建%s个项目--'%(len(arr_list) * 6);
+    print ('--共创建%s个项目--'%(len(arr_list) * 6));
