@@ -5,7 +5,10 @@
 import argparse;
 import os,os.path,sys,shutil;
 from PIL import Image;
+from PIL import ImageDraw;
 import threading
+reload(sys);
+sys.setdefaultencoding("utf-8");
 
 #iconName:
 iconName = 'icon.png';
@@ -108,6 +111,30 @@ def save_ImgRGBFile(sInFile,sOutFile,sWidth,sHeight):
     p.save(sOutFile, 'png', quality=100);
     p.close();
 
+ #6、常规保存图片
+def sava_ImgNomalFile(sInFile,sOutFile,sWidth,sHeight):
+    img = modify_ImgSize(sInFile, sWidth, sHeight);
+    img.save(sOutFile, 'png', quality=100);
+    img.close();
+
+#7、图片切成圆角
+def circle_corder_image(sInFile,sOutFile):
+    im = Image.open(sInFile).convert("RGBA");
+    rad = 10;  # 设置半径
+    circle = Image.new('L', (rad * 2, rad * 2), 0);
+    draw = ImageDraw.Draw(circle);
+    draw.ellipse((0, 0, rad * 2, rad * 2), fill=255);
+    alpha = Image.new('L', im.size, 255);
+    (w,h)= im.size;
+    alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0));
+    alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h-rad));
+    alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w-rad, 0));
+    alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad));
+    im.putalpha(alpha);
+    im.save(sOutFile, 'png', quality=100);
+    pass;
+
+
 #创建或更新文件/文件夹
 def update_ImgPath(sPath):
     isPath = os.path.exists(sPath);
@@ -156,6 +183,7 @@ def serach_ImgPath():
 def markAndroidImgFile():
     global iconName,target_Android_path;
     update_ImgPath(target_Android_path);
+    #遍历所有图片
     mackDir = serach_ImgPath();
     if (len(mackDir) == 2):
         base_img = Image.open(mackDir[0]);
@@ -183,6 +211,8 @@ def translate_ImgModel():
        save_ImgRGBFile(hImg,sIconName,0,0);
     else:
         print("白底的/不透明的");
+        sIconName = target_iconRGB_path + iconName;
+        sava_ImgNomalFile(hImg,sIconName,0,0);
     pass;
 
 
@@ -244,7 +274,7 @@ def convertIcon(i,width, reName):
 
 
 if __name__ == '__main__':
-    #检查图片通道并保存;
+    # #检查图片通道并保存;
     markAndroidImgFile();
     translate_ImgModel();
     creat_iOSIcon();

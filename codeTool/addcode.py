@@ -6,10 +6,9 @@ import string,sys,json;
 import time
 import datetime
 import hashlib 
-
-#获取一个随机名称
 reload(sys);
 sys.setdefaultencoding("utf-8");
+#获取一个随机名称
 script_path = os.path.split(os.path.realpath(sys.argv[0]))[0];
 #####################################################################################
 # .m文件里创建的元素的类型从这个数组里随机选
