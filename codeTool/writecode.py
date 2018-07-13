@@ -16,7 +16,7 @@ third='1234567890';
 method_min = 30;
 method_max = 100;
 #要修改的文件所在的文件夹路径
-file_floadPath = '/Users/admin/Desktop/TestHM';#要修还得文件所在的文件夹路径
+file_floadPath = '/Users/admin/Desktop/Payment1/GMPlatform/Class';#要修还得文件所在的文件夹路径
 methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
          'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',
          'GzrdyzIbimvz', 'CqsjqMmgsp', 'OxaaeuWjhasc',
@@ -276,16 +276,18 @@ def read_fileName(file_dir):
     OCfFunFile = [];
     print "file_dir:",file_dir
     for root, dirs, files in os.walk(file_dir):
-        #print(root) #当前目录路径
-        #print(dirs) #当前路径下所有子目录
+        print("root:",root) #当前目录路径
+        print("dirs:",dirs) #当前路径下所有子目录
         print("files:",files); #当前路径下所有非目录子文件
         #遍历文件夹下的.h和.m文件并添加废代码
         for file in files:
             if file.endswith('.h')or file.endswith('.m')or file.endswith('.mm'):
                 shotname = get_filePath_fileName_fileExt(file);
-                filePath = file_dir+'/'+shotname;
+                filePath = root+'/'+shotname;
                 OCfFunFile.append(filePath);
     OCfFunFile  = list(set(OCfFunFile));
+    print "OCfFunFile:",OCfFunFile;
+
     # #去除重复
     for file_name in OCfFunFile:
         isHfile = os.path.exists(file_name+'.h');
