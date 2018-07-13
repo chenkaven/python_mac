@@ -1,129 +1,11 @@
 # -*- coding: utf-8 -*-
+import random;
+import hashlib;
+import time,datetime;
+import base64;
+import re;
+import os,sys,shutil;
 
-import random
-import os,shutil
-import string,sys,json;
-import time
-import datetime
-import hashlib 
-reload(sys);
-sys.setdefaultencoding("utf-8");
-#获取一个随机名称
-script_path = os.path.split(os.path.realpath(sys.argv[0]))[0];
-#####################################################################################
-# .m文件里创建的元素的类型从这个数组里随机选
-number = "345"
-arr_list = []
-file_list = [];
-#垃圾文件总数
-file_Count = 30;
-#垃圾变量方法个数
-method_min = 5;
-method_max = 50;
-#产生垃圾文件夹的目录
-fold_List =[];
-fold_min = 4;
-fold_max = 7;
-
-msg_descrpt ='\n//  Game-MJSGZ\n//  Created  Created by Kaven on 2018/06/01.\n//  Copyright ©  2017年 .骄傲的你^终究还是我的 All rights reserved.\n//\n\n';
-# 获取桌面路径：
-target_desktop_path = os.path.join(os.path.expanduser("~"), 'Desktop/target_ios');
-
-first = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-second = "abcdefghijklmnopqrstuvwxyz";
-
-
-classArray = ['NSString','UIImageView',
-              'UILabel','NSDictionary',
-              'NSData','UIScrollView',
-              'NSArray','UIView',
-              'UIColor',
-              'UITextView','UITableView',
-              'UIWebView','UIButton',
-              'UITextField','UIPageControl',
-              'UIImage','UIProgressView',
-              'UIPickerView','UIActivityIndicatorView'];
-#颜色数组             
-colorArray = ['blackColor','darkGrayColor',
-              'lightGrayColor','whiteColor',
-              'grayColor','redColor',
-              'greenColor','blueColor',
-              'cyanColor','yellowColor',
-              'magentaColor','orangeColor',
-              'purpleColor','brownColor',
-              'clearColor'];
-
-
-methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
-         'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',
-         'GzrdyzIbimvz', 'CqsjqMmgsp', 'OxaaeuWjhasc',
-         'NjiardRvwgbi', 'NcculmLtpljq', 'ApoqQrll',
-         'GkgokDyvjb', 'EblldkVouplj', 'KfdrFvnw',
-         'SfhyhObftc', 'SmruByoc', 'YzcccvXmpmit',
-         'OmqvaHpxat', 'XzytsUyvyd', 'MjforNnnyi',
-         'ZvjhuIdogs', 'BzfrxzSeahxc', 'PycycwFjtpny',
-         'XvngtoSedljr', 'DktiaCbucd', 'AqbplNuodc',
-         'MzkvgZuala', 'KdwzIoej', 'AaynatUpqcfd',
-         'IyvwhZvtjc', 'UmijGmsy', 'AoayndXxghym',
-         'Diwbszoshz','KuaNhqpgys','kSzBMjpdct'];
-
-def getOneName():
-    # 单词列表，用以随机名称
-    global word_name_list;
-    with open(os.path.join(script_path, "./word_list.json"), "r") as fileObj:
-        word_name_list = json.load(fileObj);
-    return random.choice(word_name_list);
-    # 判断是否存在文件夹如果不存在则创建为文件夹
-def ckmkdir(path):
-    if os.path.exists(path) == True:
-       shutil.rmtree(path)
-    # makedirs 创建文件时如果路径不存在会创建这个路径
-    os.makedirs(path) ;
-
-#创建随机字符串数组
-# def getClassArray():
-#     #######################
-#     global arr_list,file_Count,first,second;
-#     index = 0
-#     #遍历循环
-#     for i in range(file_Count):
-#         final = random.choice(first);
-#         index = random.randint(3, 5);
-#         for i in range(index):
-#             final += (random.choice(first));
-#         final += (random.choice(second));
-#         arr_list.append(final);
-#     arr_list = list(set(arr_list));  # 数组去重
-#     return arr_list;
-
-def getClassArray():
-    global arr_list,file_Count,first,second;
-    #遍历循环
-    for i in range(file_Count):
-        #获取时间戳
-        time.sleep(0.1);
-        now = int(round(time.time()*1000));
-        hl = hashlib.md5();
-        hl.update(str(now));
-        sign = hl.hexdigest();
-        sign=(random.choice(first))+sign;
-        arr_list.append(sign);
-    arr_list = list(set(arr_list));  # 数组去重
-    return arr_list; 
-
-def creatFoldPathList():
-    global fold_List;
-    proNumber = random.randint(fold_min, fold_max);
-    for i in range(0,proNumber): 
-    	time.sleep(0.1);
-    	nowTime=datetime.datetime.now().strftime("%Y%m%d%H%M%S");#生成当前时间  
-        randomNum=(random.choice(methodArray))
-        uniqueNum = randomNum+str(nowTime); 
-        uniqueNum = os.path.join(target_desktop_path, uniqueNum);
-        ckmkdir(uniqueNum);
-        fold_List.append(uniqueNum); 
-    return  fold_List;
-#----------------------------------------------------生成文件信息模块start------------------------------------------------
 # 生成一个图形注释 适用于.h .cpp  .mm   .m   .hpp
 def addDescimg():
     text = [
@@ -167,12 +49,188 @@ def addDescimg():
     '\n*/\n'
     ]
     return text
+########宏定义开始####################
+msg_descrpt ='\n//  Game-MJSGZ\n//  Created  Created by Kaven on 2018/06/01.\n//  Copyright ©  2017年 .骄傲的你^终究还是我的 All rights reserved.\n//\n\n';
+# 获取桌面路径：
+target_desktop_path = os.path.join(os.path.expanduser("~"), 'Desktop/target_ios');
 
-#----------------------------------------------------生成文件信息模块start------------------------------------------------
+#随机选择字符串的数值；
+first = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+second = "abcdefghijklmnopqrstuvwxyz";
+third='1234567890';
+
+
+#文件夹数组；
+fold_min = 4;
+fold_max = 7;
+foldArray = [];
+
+#创建垃圾文件的个数
+file_Count=10;
+projectArray=[];
+file_list=[];
+
+#method的数组
+methodArray=[];
+method_min = 10;
+method_max = 100;
+#文件class数组
+#定义类数组
+classArray = ['NSString','UIImageView',
+              'UILabel','NSDictionary',
+              'NSData','UIScrollView',
+              'NSArray','UIView',
+              'UIColor',
+              'UITextView','UITableView',
+              'UIWebView','UIButton',
+              'UITextField','UIPageControl',
+              'UIImage','UIProgressView',
+              'UIPickerView','UIActivityIndicatorView'];
+#颜色数组
+colorArray = ['blackColor','darkGrayColor',
+              'lightGrayColor','whiteColor',
+              'grayColor','redColor',
+              'greenColor','blueColor',
+              'cyanColor','yellowColor',
+              'magentaColor','orangeColor',
+              'purpleColor','brownColor',
+              'clearColor'];
+
+methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
+         'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',
+         'GzrdyzIbimvz', 'CqsjqMmgsp', 'OxaaeuWjhasc',
+         'NjiardRvwgbi', 'NcculmLtpljq', 'ApoqQrll',
+         'GkgokDyvjb', 'EblldkVouplj', 'KfdrFvnw',
+         'SfhyhObftc', 'SmruByoc', 'YzcccvXmpmit',
+         'OmqvaHpxat', 'XzytsUyvyd', 'MjforNnnyi',
+         'ZvjhuIdogs', 'BzfrxzSeahxc', 'PycycwFjtpny',
+         'XvngtoSedljr', 'DktiaCbucd', 'AqbplNuodc',
+         'MzkvgZuala', 'KdwzIoej', 'AaynatUpqcfd',
+         'IyvwhZvtjc', 'UmijGmsy', 'AoayndXxghym',
+         'Diwbszoshz','KuaNhqpgys','kSzBMjpdct'];
+
+#########################################
+#prama --MD5加密
+def sy_encoding_md5(nStr):
+    sl = hashlib.md5();
+    sl.update(nStr);
+    sign = sl.hexdigest();
+    return sign;
+
+def sy_md5andBase64(nStr):
+    sign = sy_encoding_base64(nStr);
+    sign = sy_encoding_md5(sign);
+    return sign;
+
+#prama --base64加密
+def sy_encoding_base64(nStr):
+    sign = base64.b64encode(nStr.encode('utf-8'));
+    #先base64加密，然后获取以=替换字符
+    index = random.randint(0, 2);
+    if (index == 1):
+        rStr = random.choice(first);
+    elif(index == 2):
+        rStr = random.choice(second);
+    else:
+        rStr =  random.choice(third);
+    sign = sign.replace('=', 'rStr');
+    return sign;
+
+#prama --base64解码
+def sy_decoding_base64(nStr):
+    sign = base64.b64decode(nStr);
+    return sign;
+
+#prama 随机选择加密方式(base64/md5加密)
+def sy_randomSign(nStr):
+    index = random.randint(0, 1);
+    if (index == 1):
+       sign = sy_encoding_md5(nStr);
+    else:
+       sign = sy_encoding_base64(nStr);
+    return sign;
+
+
+
+#判断字符串存在数字,则替换
+def sy_replaceLine(nStr):
+    pattern = re.compile('[0-9]+');
+    index = random.randint(0, 1);
+    if index == 1:
+        rStr = random.choice(first);
+    else:
+        rStr = random.choice(second);
+    strinfo = pattern.sub(rStr, nStr);
+    print("strinfo",strinfo);
+    return strinfo;
+
+#prama --获取时间
+def sy_getTimeNow():
+    # 2018-07-01 00:47:08.505520
+    sNows = datetime.datetime.now();
+    #datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')) # 日期格式化
+    #print("sNows:", str(sNows));
+    return str(sNows);
+
+
+#创建或更新文件/文件夹
+def update_ImgPath(sPath):
+    isPath = os.path.exists(sPath);
+    isFile = os.path.isfile(sPath);
+    isDir = os.path.isdir(sPath);
+    if (isPath == True):
+        shutil.rmtree(sPath);
+    #print("######\n%s\n不存在则删除重建\n######"%(sPath));
+    if(isFile ==True):
+        #创建单个文件
+        os.mknod(sPath);
+    else:
+        #创建多个目录
+        os.makedirs(sPath);
+#####################################################################################
+#创建文件夹数组
+def getFoldArray():
+    global foldArray,fold_min,fold_min,first,second;
+    proNumber = random.randint(fold_min, fold_max);
+    #遍历循环
+    for i in range(proNumber):
+        final = (random.choice(first));
+        index = random.randint(3, 5);
+        now = sy_getTimeNow();
+        final += sy_randomSign(now);
+        for i in range(index):
+            final += (random.choice(second));
+            final = os.path.join(target_desktop_path, final);
+        foldArray.append(final);
+        update_ImgPath(final);
+    foldArray = list(set(foldArray));  # 数组去重
+    print("foldArray:",str(len(foldArray)));
+    return foldArray;
+
+
+def getProjectArray():
+    global projectArray,file_Count,first,second;
+    #遍历循环
+    for i in range(file_Count):
+        final = (random.choice(first));
+        index = random.randint(3, 5);
+        now = sy_getTimeNow();
+        final += sy_randomSign(now);
+        for i in range(index):
+            final += (random.choice(second))
+        projectArray.append(final);
+    projectArray = list(set(projectArray));  # 数组去重
+    print("projectArray:",projectArray);
+    return projectArray;
+
+def getMethodNameArray():
+    global methodArray;
+
+########---所有逻辑处理模板---##########
 #获取方法名
 def getMehtodNameFunc(kclassName,knameStr):
    sline_data ='';
-   content_Color = random.choice(colorArray);  
+   content_Color = random.choice(colorArray);
    if kclassName =="UILabel" \
        or kclassName=='UIImageView'\
        or kclassName == "UIScrollView"\
@@ -238,6 +296,7 @@ def getMehtodNameFunc(kclassName,knameStr):
 
 #创建.h文件
 def text_createH(outpath,fileNmae,msg1,propertyNumber,kmethodArray,kclassNameArray,msg3):
+    global projectArray;
     full_path = outpath + os.path.sep + fileNmae + '.h';
     file = open(full_path, 'w');
     file.write('//%s.h'%(fileNmae)+msg_descrpt);
@@ -247,7 +306,7 @@ def text_createH(outpath,fileNmae,msg1,propertyNumber,kmethodArray,kclassNameArr
     #创建propryNameArray；
     propryNameArray = [];
     for index in range(1,propertyNumber):
-        propryNameArray.append(random.choice(arr_list));
+        propryNameArray.append(random.choice(projectArray));
     #print "获取拼接后的数据:propryNameArray:", propryNameArray;
     propryNameArray = list(set(propryNameArray));
    # print "去除重复的propryNameArray:", propryNameArray;
@@ -256,13 +315,13 @@ def text_createH(outpath,fileNmae,msg1,propertyNumber,kmethodArray,kclassNameArr
     file.write('\n');
     # 创建methodNameArray；
     for methodName, className in zip(kmethodArray, kclassNameArray):
-        aline = '- (nonnull %s *)post%s:(nonnull %s *)info%s;\n'%(className,methodName,className,methodName);
+        aline = '- (nonnull %s *)hsd_%s:(nonnull %s *)info%s;\n'%(className,methodName,className,methodName);
         file.write(aline);
     for methodName, className in zip(kmethodArray, kclassNameArray):
-        bline = '- (nonnull %s *)get%s:(nonnull %s *)for%s;\n'%(className,methodName,className,methodName);
+        bline = '- (nonnull %s *)fus_%s:(nonnull %s *)for%s;\n'%(className,methodName,className,methodName);
         file.write(bline);
     for methodName, className in zip(kmethodArray, kclassNameArray):
-        cline = '- (nonnull %s *)set%s:(nonnull %s *)into%s;\n'%(className,methodName,className,methodName);
+        cline = '- (nonnull %s *)yhs_%s:(nonnull %s *)into%s;\n'%(className,methodName,className,methodName);
         file.write(cline);
     # 写入尾部@end；
     file.write(msg3);
@@ -282,7 +341,7 @@ def text_createM(outpath,fileNmae,msg,msg1,kmethodArray,kclassNameArray,msg3):
         #print 'methodName:',methodName;
         #print 'className:',className;
         funcMehthod = getMehtodNameFunc(className,methodName);
-        aline = '\n - (nonnull %s *)post%s:(nonnull %s *)info%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
+        aline = '\n - (nonnull %s *)hsd_%s:(nonnull %s *)info%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
         file.write(aline);
         file.write('\n\treturn %s;\n}\n' % (methodName));
 
@@ -290,7 +349,7 @@ def text_createM(outpath,fileNmae,msg,msg1,kmethodArray,kclassNameArray,msg3):
         # print 'methodName:',methodName;
         # print 'className:',className;
         funcMehthod = getMehtodNameFunc(className, methodName);
-        bline = '\n - (nonnull %s *)get%s:(nonnull %s *)for%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
+        bline = '\n - (nonnull %s *)fus_%s:(nonnull %s *)for%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
         file.write(bline);
         file.write('\n\treturn %s;\n}\n' % (methodName));
 
@@ -298,7 +357,7 @@ def text_createM(outpath,fileNmae,msg,msg1,kmethodArray,kclassNameArray,msg3):
         # print 'methodName:',methodName;
         # print 'className:',className;
         funcMehthod = getMehtodNameFunc(className, methodName);
-        cline = '\n - (nonnull %s *)set%s:(nonnull %s *)into%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
+        cline = '\n - (nonnull %s *)yhs_%s:(nonnull %s *)into%s {\n%s'%(className,methodName,className,methodName,funcMehthod);
         file.write(cline);
         file.write('\n\treturn %s;\n}\n' % (methodName));
 
@@ -306,15 +365,11 @@ def text_createM(outpath,fileNmae,msg,msg1,kmethodArray,kclassNameArray,msg3):
     file.close();
     print('Done注意：%s.m 完成'%fileNmae);
 
-
-
-
-
 #####################################################################################
 def creatModelFile():
     # 1.创建控制器的模型;
-    global arr_list, file_list,fold_List;
-    for file_name in arr_list:
+    global projectArray, file_list,foldArray;
+    for file_name in projectArray:
         proNumber = random.randint(method_min, method_max);
         #print "初始化：proNumber:", number;
         methodNameArray = []
@@ -328,21 +383,21 @@ def creatModelFile():
             classNameArray.append(random.choice(classArray));
         classNameArray = list(set(classNameArray))  # 数组去重
         #print "初始化:classNameArray:", classNameArray;
-        file_list.append("#import \"" + file_name + "Enity.h\"");
-        target_iOS_folder = random.choice(fold_List);
+        file_list.append("#import \"" + file_name + ".h\"");
+        target_iOS_folder = random.choice(foldArray);
         # 创建控制器的模型;
-        text_createH(target_iOS_folder,file_name + 'Enity',
-                     '@interface ' + file_name + 'Enity:' + 'NSObject\n' \
-                     + '\n+(' + file_name + 'Enity *)sharedInstance;\n',
+        text_createH(target_iOS_folder,file_name ,
+                     '@interface ' + file_name + ':' + 'NSObject\n' \
+                     + '\n+(' + file_name + '*)sharedInstance;\n',
                      proNumber,
                      methodNameArray,
                      classNameArray,
                      '\n\n@end');
 
-        text_createM(target_iOS_folder,file_name + 'Enity',
-                     '#import "' + file_name + 'Enity.h"\n\n' '@interface ' + file_name + 'Enity()\n\n @end\n\n',
-                     '@implementation ' + file_name + 'Enity\n' + '\n+(' + file_name + 'Enity *)sharedInstance {\n' \
-                     + '\tstatic\t' + file_name + 'Enity  *sharedInstance = nil;' \
+        text_createM(target_iOS_folder,file_name,
+                     '#import "' + file_name + '.h"\n\n' '@interface ' + file_name + '()\n\n @end\n\n',
+                     '@implementation ' + file_name + '\n' + '\n+(' + file_name + ' *)sharedInstance {\n' \
+                     + '\tstatic\t' + file_name + '  *sharedInstance = nil;' \
                      + '\n\tstatic dispatch_once_t predicate;' \
                      + '\n\tdispatch_once(&predicate, ^{' \
                      + '\n\t\t sharedInstance = [[self alloc] init];' \
@@ -354,98 +409,15 @@ def creatModelFile():
                      classNameArray,
                      '\n\n@end');
 
-
-def creatViewFile():
-    # 2.创建控制器的View视图;
-    global arr_list, file_list,fold_List;
-    for file_name in arr_list:
-        proNumber = random.randint(method_min, method_max);
-        print ("初始化：proNumber:", number);
-        methodNameArray = []
-        for i in range(method_min, method_max):
-            methodNameArray.append(random.choice(methodArray));
-        methodNameArray = list(set(methodNameArray))  # 数组去重
-        print ("初始化:methodNameArray:", methodNameArray);
-
-        classNameArray = [];
-        for i in range(method_min, method_max):
-            classNameArray.append(random.choice(classArray));
-        classNameArray = list(set(classNameArray))  # 数组去重
-        #print "初始化:classNameArray:", classNameArray;
-        file_list.append("#import \"" + file_name + "View.h\"");
-        target_iOS_folder = random.choice(fold_List);      
-        # 创建控制器的View视图
-        text_createH(target_iOS_folder,file_name + 'View',
-                     '@interface ' + file_name + 'View:' + 'UIView\n' \
-                     + '\n-(id)initWithFrame:(CGRect)frame;\n',
-                     proNumber,
-                     methodNameArray,
-                     classNameArray,
-                     '\n\n@end');
-
-        text_createM(target_iOS_folder,file_name + 'View',
-                     '#import "' + file_name + 'View.h"\n\n' '@interface ' + file_name + 'View()\n\n @end\n\n',
-                     '@implementation ' + file_name + 'View\n' \
-                     + '\n-(id)initWithFrame:(CGRect)frame{\n\tself = [super initWithFrame:frame];\n\tif (self) {\n\t\tself.backgroundColor =[UIColor clearColor];\n\t}\n\treturn self;\n}\n',
-                     methodNameArray,
-                     classNameArray,
-                     '\n\n@end');
-
-
-def creatViewControllerFile():
-    # 3.创建控制器;
-    global arr_list, file_list,fold_List;
-    for file_name in arr_list:
-        proNumber = random.randint(method_min, method_max);
-        print ("初始化：proNumber:", number);
-        methodNameArray = []
-        for i in range(method_min, method_max):
-            methodNameArray.append(random.choice(methodArray));
-        methodNameArray = list(set(methodNameArray))  # 数组去重
-        print ("初始化:methodNameArray:", methodNameArray);
-        classNameArray = [];
-        for i in range(method_min, method_max):
-            classNameArray.append(random.choice(classArray));
-        classNameArray = list(set(classNameArray))  # 数组去重
-        #print "初始化:classNameArray:", classNameArray;
-        file_list.append("#import \"" + file_name + "ViewController.h\"");
-        ############创建垃圾文件############################
-        target_iOS_folder = random.choice(fold_List);      
-
-        # 创建控制器;
-        text_createH(target_iOS_folder,file_name + 'ViewController',
-                     '@interface ' + file_name + 'ViewController:' + 'UIViewController\n\n',
-                     proNumber,
-                     methodNameArray,
-                     classNameArray,
-                     '\n\n@end');
-
-        text_createM(target_iOS_folder,file_name + 'ViewController',
-                     '#import "' + file_name + 'ViewController.h"\n\n' '@interface ' + file_name + 'ViewController()\n\n @end\n\n',
-                     '@implementation ' + file_name + 'ViewController\n\n- (void)viewDidLoad {\n\t[super viewDidLoad];\n}\n\n',
-                     methodNameArray,
-                     classNameArray,
-                     '\n\n@end');
-
-
-
-
-
-#####################################################################################
-
-
 if __name__ == '__main__':
-    ckmkdir(target_desktop_path);
-    creatFoldPathList();
-    getClassArray();
-    #print "初始化：arr_list:", arr_list
+    update_ImgPath(target_desktop_path);
+    getFoldArray();
+    getProjectArray();
     creatModelFile();
-    creatViewFile();
-    creatViewControllerFile();
-    print ('--开始创建ZZTrash.h--');
+    print('--开始创建ZZTrash.h--');
     all_header_text = "\n".join(file_list);
-    target_iOS_folder = random.choice(fold_List);  
+    target_iOS_folder = random.choice(foldArray);
     with open(os.path.join(target_iOS_folder, "ZZTrash.h"), "w") as fileObj:
         fileObj.write(all_header_text);
         fileObj.close();
-    print ('--共创建%s个项目--'%(len(arr_list) * 6));
+    print('--共创建%s个项目--' % (len(projectArray) * 6));
