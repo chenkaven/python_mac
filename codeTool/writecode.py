@@ -16,7 +16,8 @@ third='1234567890';
 method_min = 30;
 method_max = 100;
 #要修改的文件所在的文件夹路径
-file_floadPath = '/Users/admin/Desktop/Payment1/GMPlatform/Class';#要修还得文件所在的文件夹路径
+file_floadPath = '/Users/admin/Desktop/Payment/GMPlatform/Class';#要修还得文件所在的文件夹路径
+
 methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
          'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',
          'GzrdyzIbimvz', 'CqsjqMmgsp', 'OxaaeuWjhasc',
@@ -220,8 +221,13 @@ def getMehtodNameFunc(kclassName,knameStr):
    elif kclassName == 'UIColor':
         sline_data += (random.choice(methodArray));
         sline_data = '\n\t/*********mjbwenjian**********/\n' \
-                + '\t' + kclassName + ' * ' + knameStr + ' = [UIColor %s];\n' \
-                '\n\t/*********mjbwenjian**********/'%(content_Color);
+                + '\t' + kclassName + ' * ' + knameStr + ' = [UIColor %s];\n'%(content_Color) \
+                +'\t'+knameStr+'= [UIColor colorWithRed:'+str(random.randint(0, 255))+'.0f/255.0'\
+                     +'\tgreen:'+str(random.randint(0, 255))+'.0f/255.0'\
+                     +'\tblue:'+str(random.randint(0, 255))+'.0f/255.0'\
+                     +'\talpha:'+str(random.randint(0, 1))+'.0f];\n'\
+                     +'\n\t/*********mjbwenjian**********/';
+
    elif kclassName == 'UIFont':
         sline_data += (random.choice(methodArray));
         sline_data = '\n\t/*********mjbwenjian**********/\n' \
@@ -239,7 +245,7 @@ def text_createH(sPath,sMsg1,sMethodArr,sClassArr,sFuncArr):
     result.append(sMsg1);
     # 创建body函数方法
     for methodName, className,funNamec in zip(sMethodArr, sClassArr,sFuncArr):
-        aLine = '- (nonnull %s *)hsd_%s:(nonnull %s *)%s;\n'%(className,methodName,className,funNamec);
+        aLine = '- (nonnull %s *)hsd_%s:(nonnull %s *)%s_of;\n'%(className,methodName,className,funNamec);
         file_data += aLine;
     result.append(file_data);
     #写入@end结束
@@ -261,9 +267,9 @@ def text_createM(sPath,sMsg1,sMethodArr,sClassArr,sFuncArr):
     result.append(sMsg1);
     # 创建methodNameArray；
     for methodName, className, funNamec in zip(sMethodArr, sClassArr, sFuncArr):
-        funcMehthod = getMehtodNameFunc(className,methodName);
-        aline = '\n - (nonnull %s *)hsd_%s:(nonnull %s *)%s {\n%s'%(className,methodName,className,funNamec,funcMehthod);
-        aline += '\n\treturn %s;\n}\n' % (methodName);
+        funcMehthod = getMehtodNameFunc(className,funNamec);
+        aline = '\n - (nonnull %s *)hsd_%s:(nonnull %s *)%s_of {\n%s'%(className,methodName,className,funNamec,funcMehthod);
+        aline += '\n\treturn %s;\n}\n' % (funNamec);
         file_data += aline;
     result.append(file_data);
     # 写入@end结束
