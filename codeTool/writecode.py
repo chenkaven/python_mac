@@ -13,10 +13,12 @@ first = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 second = "abcdefghijklmnopqrstuvwxyz";
 third='1234567890';
 #垃圾变量方法个数
-method_min = 30;
-method_max = 100;
+method_min = 1;
+method_max = 10;
+#保存所有写入方法
+cache_Array=[];
 #要修改的文件所在的文件夹路径
-file_floadPath = '/Users/admin/Desktop/Payment/GMPlatform/Class';#要修还得文件所在的文件夹路径
+file_floadPath = '/Users/admin/Desktop/KTestDemo';#要修还得文件所在的文件夹路径
 
 methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
          'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',
@@ -122,7 +124,20 @@ def  get_filePath_fileName_fileExt(filename):
     return  shotname;
 
 
-
+#创建或更新文件/文件夹
+def update_ImgPath(sPath):
+    isPath = os.path.exists(sPath);
+    isFile = os.path.isfile(sPath);
+    isDir = os.path.isdir(sPath);
+    if (isPath == True):
+        shutil.rmtree(sPath);
+    #print("######\n%s\n不存在则删除重建\n######"%(sPath));
+    if(isFile ==True):
+        #创建单个文件
+        os.mknod(sPath);
+    else:
+        #创建多个目录
+        os.makedirs(sPath);
 ##########################################################
 
 def getMethodArrList():
@@ -238,7 +253,10 @@ def getMehtodNameFunc(kclassName,knameStr):
 def text_createH(sPath,sMsg1,sMethodArr,sClassArr,sFuncArr):
     file_data = "";
     result = [];
-    for line in open(sPath, 'r'):
+    if os.path.exists(sPath)== False:
+        print('.h当前路径无效');
+        return;
+    for line in open(sPath, 'rw'):
         result.append(line);
 
     #模拟头部标题；
@@ -260,6 +278,9 @@ def text_createM(sPath,sMsg1,sMethodArr,sClassArr,sFuncArr):
     if os.path.exists(sPath)==False:
         (filepath, tempfilename) = os.path.split(sPath);
         sPath = filepath+'.mm';
+    if os.path.exists(sPath) == False:
+        print('.m/.mm当前路径无效');
+        return;
     ############################
     for line in open(sPath, 'r'):
         result.append(line);
@@ -277,41 +298,70 @@ def text_createM(sPath,sMsg1,sMethodArr,sClassArr,sFuncArr):
     open(sPath, 'wb').writelines(result);
     pass;
 
+#写入缓存
+def writeCacheFile():
+    global cache_Array;  # 实例化缓存
+    cache_path = os.getcwd() + os.path.sep + 'cache_txt';
+    cache_path = update_ImgPath(cache_path);
+    all_header_text = "\n".join(cache_Array);
+    with open(cache_path, "w") as fileObj:
+        fileObj.write(all_header_text);
+        fileObj.close();
+#读取缓存
+def readCacheFile(sPath):
+    global  cache_Array; # 实例化缓存
+    result = [];
+    for line in open(sPath, 'r'):
+        result.append(line);
+    for nResult, sCache in zip(result,cache_Array):
+        if (nResult == sCache):
+            result.remove(nResult);
+        pass;
+    return result;
+
+
+#删除缓存
+def deleteCacheFile():
+    proFileList = [];
+    proFileList = read_fileName(file_floadPath);
+    for old,new in proFileList,:
+        pass;
+
 
 def read_fileName(file_dir):
     OCfFunFile = [];
-    print "file_dir:",file_dir
     for root, dirs, files in os.walk(file_dir):
         print("root:",root) #当前目录路径
-        print("dirs:",dirs) #当前路径下所有子目录
-        print("files:",files); #当前路径下所有非目录子文件
+        # print("dirs:",dirs) #当前路径下所有子目录
+        # print("files:",files); #当前路径下所有非目录子文件
         #遍历文件夹下的.h和.m文件并添加废代码
         for file in files:
             if file.endswith('.h')or file.endswith('.m')or file.endswith('.mm'):
                 shotname = get_filePath_fileName_fileExt(file);
                 filePath = root+'/'+shotname;
                 OCfFunFile.append(filePath);
+     # #去除重复
     OCfFunFile  = list(set(OCfFunFile));
-    print "OCfFunFile:",OCfFunFile;
-
-    # #去除重复
+    #遍历数组
     for file_name in OCfFunFile:
         isHfile = os.path.exists(file_name+'.h');
         isMfile = os.path.exists(file_name+'.m');
         isMMfile = os.path.exists(file_name + '.mm');
         if isHfile == False:
             OCfFunFile.remove(file_name);
-        if isMfile ==  False and isMMfile == False:
-            OCfFunFile.remove(file_name);
-    print "OCfFunFile:",OCfFunFile;
+    print ("OCfFunFile:",OCfFunFile);
     return OCfFunFile;
 
+def getDepandName():
+    arr = ['UIView','UIViewController','NSObject'];
+    return arr;
 
+#总执行方法
 def  mainInfoZhixing():
     #读取所有文件
     global  file_floadPath;
     proFileList = [];
-    proFileList = read_fileName(file_floadPath)
+    proFileList = read_fileName(file_floadPath);
     for file_name in proFileList:
         #构造oc函数方法
         methodNameArray = getMethodArrList();
@@ -322,10 +372,11 @@ def  mainInfoZhixing():
         for i in range(method_min, method_max):
             funcNameArray.append(random.choice(methodArray));
         #获取文件名；
-        shotname = get_filePath_fileName_fileExt(file_name);
+        shotname = (random.choice(getDepandName()));
         sTitle = (random.choice(methodNameArray));
-        msg1 = '\n@interface '+shotname+' (%s)\n\n'%(sTitle);
-        msg2 = '\n@implementation '+shotname+' (%s)\n\n'%(sTitle);
+        headMsg = '\n#import <UIKit/UIKit.h>\n#import <Foundation/Foundation.h>\n';
+        msg1 = headMsg + '\n@class '+ sTitle + ';\n@interface '+' %s : %s\n\n'%(sTitle,shotname);
+        msg2 = '\n@implementation '+' %s\n\n'%(sTitle);
         text_createH(file_name+'.h',msg1,methodNameArray,classNameArray,funcNameArray);
         text_createM(file_name+'.m',msg2,methodNameArray,classNameArray,funcNameArray);
         pass;
