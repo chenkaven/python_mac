@@ -1,0 +1,13 @@
+终端： 
+1、需先配置 ：exOptions.plist
+修改provisioningProfiles/xxx ->(改成项目的xxx描述文件名称) 如：com.game2.xiakexing；
+teamID值改成项目的teamid 如BJ282W6GQG（省略）
+2、打开终端 
+a. cd 当前目录路径
+b. python adhocbuild.py -p/-w  xxx.xcodeproj/.xcworkspace -s xxx
+如：
+python adhocbuild.py -p /Users/admin/Desktop/TestSdkDemo/TestSdkDemo.xcodeproj -s TestSdkDemo
+c. 执行命令后等待在桌面生成ipa目录点击查看；
+
+
+

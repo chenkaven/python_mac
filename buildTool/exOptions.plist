@@ -4,5 +4,10 @@
 <dict>
 	<key>method</key>
 	<string>ad-hoc</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.game2.xiakexing</key>
+		<string>xiakexingAdHoc</string>
+	</dict>
 </dict>
 </plist>

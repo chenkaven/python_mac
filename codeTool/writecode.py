@@ -13,12 +13,12 @@ first = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 second = "abcdefghijklmnopqrstuvwxyz";
 third='1234567890';
 #垃圾变量方法个数
-method_min = 1;
-method_max = 10;
+method_min = 20;
+method_max = 50;
 #保存所有写入方法
 cache_Array=[];
 #要修改的文件所在的文件夹路径
-file_floadPath = '/Users/admin/Desktop/KTestDemo';#要修还得文件所在的文件夹路径
+file_floadPath = '/Users/admin/Desktop/testDemo';#要修还得文件所在的文件夹路径
 
 methodArray = ['HwxrFvrj', 'QnzduQbtdd', 'PvcrwLtqhf',
          'UvdhDbjn', 'SuntmyTxvyzg', 'CvlxwBipbp',

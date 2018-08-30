@@ -14,7 +14,8 @@ CONFIGURATION = "Debug";
 EXPORT_OPTIONS_PLIST = "exOptions.plist";
 #会在桌面创建输出ipa文件的目录
 EXPORT_MAIN_DIRECTORY=os.path.join(os.path.expanduser("~"), 'Desktop')+os.path.sep;
-
+#C_project = '/Users/admin/Desktop/TestSdkDemo/TestSdkDemo.xcodeproj';
+#C_scheme = os.path.splitext(os.path.split(project)[1])[0];
 
 def cleanArchiveFile(archiveFile):
 	cleanCmd = "rm -r %s" %(archiveFile)
@@ -109,11 +110,9 @@ def buildProject(kproject, kscheme):
 
 
 def xcbuild(options):
-	project = '/Users/changku/Desktop/SgmjzGame/SgmjzGame.xcodeproj';
-	scheme = os.path.splitext(os.path.split(project)[1])[0];
-	# project = options.project
+	project = options.project
 	workspace = options.workspace
-	# scheme = options.scheme;
+	scheme = options.scheme;
 	#如果选择东西为空跳过；
 	if project is None and workspace is None:
 		pass;
