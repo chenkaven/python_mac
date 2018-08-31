@@ -1,0 +1,9 @@
+1、打开终端 
+a. cd 当前目录路径
+b. python writecode.py -p 项目路径
+如：
+python writecode.py -p /Users/admin/Desktop/TestSdkDemo
+
+
+
+
