@@ -12,9 +12,9 @@ import commands
 3、执行脚本文件
 '''
 
-appFileFullPath = '/Users/changku/Library/Developer/Xcode/DerivedData/RxsgPlatform-aprswdzdnrxusnaecgcddbprusyk/Build/Products/Debug-iphoneos/RxsgPlatform.app'
-PayLoadPath = '/Users/changku/Desktop/Payload'
-packBagPath = '/Users/changku/Desktop/ProgramBag'
+appFileFullPath = ' /Users/apple/Library/Developer/Xcode/DerivedData/HYChess-cfyhhnsawqouiahcibxuhzgusqld/Build/Products/Debug-iphoneos/HYChess.app'
+PayLoadPath = '/Users/apple/Desktop/Payload'
+packBagPath = '/Users/apple/Desktop/ProgramBag'
 
 
 

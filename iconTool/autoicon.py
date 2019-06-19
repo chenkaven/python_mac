@@ -59,6 +59,7 @@ def creatiOSList():
                       ['76','icon-76-ipad.png'],
                       ['152','icon-76@2x-ipad.png'],
                       ['167','icon-83.5@2x-ipad.png'],
+                      ['512','icon-512.png'],                      
                       ['1024','icon-1024.png']];
         return image_DICT;
     except Exception as e:
